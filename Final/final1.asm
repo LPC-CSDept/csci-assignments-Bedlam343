@@ -16,11 +16,14 @@ rd_wait:
         beq     $t3, $zero, rd_wait     # Input device is not ready, so loop back
         nop                             # delay slot for the branch
 
-        
+        lw      $t3, 4( $t2 )           # Input device is ready, so read value from Receiver Data Register
 
-        blt     $t0, $t1, rd_wait       # if ($t0 < $t1) loop back
+        beq     $t0, $t1, end           # The loop counter is reached, so break out of the loop
         nop                             # delay slot for the branch
 
+        
+
+end:
         li      $v0, 10                 # service code to end program
         syscall                         # End program
 
