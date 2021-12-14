@@ -20,14 +20,13 @@ rd_wait:
         nop                             # delay slot for the branch
 
         lw      $s0, 4( $t2 )           # Input device is ready, so read value from Receiver Data Register
-
+        add     $s0, $s0, -48           # Subtract 48 from enetered digit to get decimal value
         beq     $t0, $t1, end           # The loop counter is reached, so break out of the loop
         nop                             # delay slot for the branch
 
         mult    $s0, $t3                # $s0 * Multiplier
         mflo    $s1                     # move the product into register $s1
         add     $a0, $a0, $s1           # add the new number into the number in $a0
-        
         
 
 end:
