@@ -2,10 +2,17 @@
 # Question 1
 # 12/13/2021
 
+        .data
+pr1:    .asciiz "Enter three digits ('0' - '9'): "      # prompt message
+
         .text
         .globl main
 
 main:
+        la      $a0, pr1                # load prompt message
+        li      $v0, 4                  # print string service code
+        syscall
+
         li      $t0, 0                  # counter for loop
         li      $t1, 3                  # loop counter limit
         lui     $t2, 0xFFFF             # load address of Receiver Control
