@@ -45,7 +45,11 @@ inputLoop:
         li      $v0, 11                 # print char service code
         syscall
 
-kEnd:
+kEnd:   
+                                        # no registers to restore
+        mtc0    $0, $13                 # Clear Cause Register
+        mfc0    $k0, $12                # read from Status Register
+        andi    $k0, 0xFFFD             # D = 1101; Clear exception level bit; the second bit
 
 
 
