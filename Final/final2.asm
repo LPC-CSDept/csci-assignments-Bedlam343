@@ -14,13 +14,13 @@ main:
         li      $v0, 4                  # print string service code
         syscall
         
-        mfc0    $t0, $12                # read from the status reister
+        mfc0    $t0, $12                # read from the Status Reister
         ori     $t0, 0xFF11             # Store enable all interrupts
-        mtc0    $t0, $12                # write back to status register to enable interrupts
+        mtc0    $t0, $12                # write back to Status Register to enable interrupts
         
         lui     $t1, 0xFFFF             # load address of Receiver Control
-        ori     $t0, $zero, 0x0002      # enable keyboard interrupt
-        sw      $t0, 0( $t1 )           # write back to Receiver control to enable KBD interrupts
+        ori     $t0, $zero, 2           # enable keyboard interrupt
+        sw      $t0, 0( $t1 )           # write back to Receiver Control to enable KBD interrupts
 
 inputLoop:
         bne     $a0, 113, inputLoop     # if($a0 != 'q') keep looping
@@ -28,5 +28,21 @@ inputLoop:
 
         li      $v0, 10                 # service code to end program
         syscall                         # exit if the program gets here
+
+
+        .ktext  0x80000180              # start of kernel text
+                                        # no registers to save...
+
+        mfc0    $k0, $13                # read from Cause Register
+        sr1     $a0, $k0, 2             # move Exception Code field to the right
+                                        # Bit 0 --> Bit 5
+        andi    $a0, $a0, 0x001F        # extract Exception Code
+        bne     $a0, $zero, kEnd        # Check if Exception Code is 0000
+                                        # if not, go to end
+                                        # Only processing I/0
+
+kEnd:
+
+
 
 ## End of program
