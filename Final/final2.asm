@@ -34,7 +34,7 @@ inputLoop:
                                         # no registers to save...
 
         mfc0    $k0, $13                # read from Cause Register
-        sr1     $a0, $k0, 2             # move Exception Code field to the right
+        srl     $a0, $k0, 2             # move Exception Code field to the right
                                         # Bit 0 --> Bit 5
         andi    $a0, $a0, 0x001F        # extract Exception Code
         bne     $a0, $zero, kEnd        # Check if Exception Code is 0000
