@@ -22,8 +22,10 @@ main:
         ori     $t0, $zero, 2           # enable keyboard interrupt
         sw      $t0, 0( $t1 )           # write back to Receiver Control to enable KBD interrupts
 
+        li      $a1, 0                  # Reset register $a1
+
 inputLoop:
-        bne     $a0, 113, inputLoop     # if($a0 != 'q') keep looping
+        bne     $a1, 113, inputLoop     # if($a1 != 'q') keep looping
         nop                             # delay slot for branch
 
         li      $v0, 10                 # service code to end program
