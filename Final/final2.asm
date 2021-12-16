@@ -10,6 +10,10 @@ pr1:    .asciiz "Enter any character ('q' to quit): "   # prompt message
         .globl main
 
 main:
+        la      $a0, pr1                # load prompt message address
+        li      $v0, 4                  # print string service code
+        syscall
+        
         mfc0    $t0, $12                # read from the status reister
         ori     $t0, 0xFF11             # Store enable all interrupts
         mtc0    $t0, $12                # write back to status register to enable interrupts
