@@ -40,6 +40,10 @@ inputLoop:
         bne     $a0, $zero, kEnd        # Check if Exception Code is 0000
                                         # if not, go to end
                                         # Only processing I/0
+        lui     $v0, 0xFFFF             # load address of Receiver Control
+        lw      $a0, 4( $v0 )           # read entered data into $a0
+        li      $v0, 11                 # print char service code
+        syscall
 
 kEnd:
 
