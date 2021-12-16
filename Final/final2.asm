@@ -39,7 +39,7 @@ inputLoop:
         andi    $a0, $a0, 0x001F        # extract Exception Code
         bne     $a0, $zero, kEnd        # Check if Exception Code is 0000
                                         # if not, go to end
-                                        # Only processing I/0
+                                        # Only processing interrupts (I/0)
         lui     $v0, 0xFFFF             # load address of Receiver Control
         lw      $a0, 4( $v0 )           # read entered data into $a0
         li      $v0, 11                 # print char service code
@@ -50,7 +50,8 @@ kEnd:
         mtc0    $0, $13                 # Clear Cause Register
         mfc0    $k0, $12                # read from Status Register
         andi    $k0, 0xFFFD             # D = 1101; Clear exception level bit; the second bit
-
+        mtc0    $k0, $12                # write back to Status Register
+        eret                            # Return to EPC
 
 
 ## End of program
